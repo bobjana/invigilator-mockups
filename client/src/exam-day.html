@@ -1,0 +1,19 @@
+<template>
+    <div class="col-lg-2">
+        <div class="row">
+            <div class="col-lg-12 bg-success">
+                ${date}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 bg-success">
+                ${venue}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 bg-warning" repeat.for="session of sessions" style="cursor: pointer;" click.trigger="$parent.viewSession(session)">
+                ${session.slot}
+            </div>
+        </div>
+    </div>
+</template>

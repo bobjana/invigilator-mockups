@@ -1,0 +1,10 @@
+<template>
+    <require from="exam-day"></require>
+    <div class="container-fluid bs-docs-grid">
+        <div class="row">
+            <div repeat.for="day of days">
+                <exam-day date.bind="day.date" venue.bind="day.venue" sessions.bind="day.sessions"></exam-day>
+            </div>
+        </div>
+    </div>
+</template>
