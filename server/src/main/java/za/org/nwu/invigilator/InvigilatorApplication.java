@@ -1,4 +1,4 @@
-package za.org.nwu;
+package za.org.nwu.invigilator;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
