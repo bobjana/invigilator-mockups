@@ -3,5 +3,10 @@ language: java
 jdk:
   - oraclejdk8
 
+before_install:
+ - npm install gulp -g
+
 script:
   - mvn test -f server/pom.xml
+  - cd client
+  - gulp test
