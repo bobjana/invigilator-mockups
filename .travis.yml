@@ -9,4 +9,5 @@ before_install:
 script:
   - mvn test -f server/pom.xml
   - cd client
+  - npm install
   - gulp test
