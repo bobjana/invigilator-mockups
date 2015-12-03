@@ -1,4 +1,26 @@
+import {inject} from 'aurelia-framework';
+import {DialogService} from 'aurelia-dialog';
+import {CreateExam} from './create';
+
+@inject(DialogService)
 export class ExamList {
+
+  constructor(dialogService) {
+    this.dialogService = dialogService;
+  }
+
+
+  createNewExam(){
+
+    this.dialogService.open({ viewModel: CreateExam, model: { firstName: 'Owen' }}).then((result) => {
+      if (!result.wasCancelled) {
+        console.log('good');
+        console.log(result.output);
+      } else {
+        console.log('bad');
+      }
+    });
+  }
 
   //configureRouter(config, router) {
   //  config.map([
