@@ -1,7 +1,6 @@
 package za.org.nwu.invigilator.exam;
 
-import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,32 +12,25 @@ import java.util.stream.Collectors;
 @RestController(value = "/api/exams")
 public class ExamController {
 
-    private ModelMapper modelMapper;
     private ExamService examService;
+    private Mapper mapper;
 
     @Autowired
-    public ExamController(ExamService examService) {
+    public ExamController(ExamService examService, Mapper mapper) {
         this.examService = examService;
-        initModelMapper();
+        this.mapper = mapper;
     }
 
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ExamResource> list(){
-        return examService.list().stream().map(exam ->
-            modelMapper.map(exam, ExamResource.class)).collect(Collectors.toList());
+        return examService.list().stream().map(exam -> {
+            ExamResource resource = mapper.map(exam, ExamResource.class);
+            resource.setStatus(exam.isLocked()?"locked":"pending");
+            return resource;
+        }).collect(Collectors.toList());
     }
 
-    private void initModelMapper() {
-        PropertyMap<Exam, ExamResource> examMappings = new PropertyMap<Exam, ExamResource>() {
-            protected void configure() {
-                String status = source.isLocked() ? "locked" : "pending";
-                map().setStatus(status);
-            }
-        };
 
-        this.modelMapper = new ModelMapper();
-        this.modelMapper.addMappings(examMappings);
-    }
 
 }
