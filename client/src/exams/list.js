@@ -1,12 +1,30 @@
 import {inject} from 'aurelia-framework';
 import {DialogService} from 'aurelia-dialog';
 import {CreateExam} from './create';
+import {HttpClient} from 'aurelia-fetch-client';
+import 'fetch';
 
-@inject(DialogService)
+@inject(DialogService, HttpClient)
 export class ExamList {
 
-  constructor(dialogService) {
+  exams = [];
+
+  constructor(dialogService, httpClient) {
     this.dialogService = dialogService;
+    httpClient.configure(config => {
+      config
+        .useStandardConfiguration()
+        .withBaseUrl('http://localhost:8080/api/');
+    });
+    this.httpClient = httpClient;
+  }
+
+  activate() {
+    this.httpClient.fetch('exams')
+      .then(response => response.json())
+      .then(data => {
+        this.exams = data;
+      });
   }
 
 
@@ -31,11 +49,6 @@ export class ExamList {
   //}
 
 
-  exams = [
-    {name: 'January 2016', status: 'Pending'},
-    {name: 'January 2015', status: 'Archived'},
-    {name: 'June 2015', status: 'Locked'}
-  ]
 
 }
 

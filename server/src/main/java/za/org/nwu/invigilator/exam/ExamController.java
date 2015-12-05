@@ -31,6 +31,4 @@ public class ExamController {
         }).collect(Collectors.toList());
     }
 
-
-
 }
